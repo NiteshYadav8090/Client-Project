@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NOVVI PROPERTIES - Residential Properties in Dubai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'novvi-dark': '#2d3748',
+                        'novvi-gray': '#718096',
+                        'novvi-light-gray': '#e2e8f0',
+                        'novvi-orange': '#ed8936',
+                        'novvi-orange-hover': '#dd6b20',
+                        'novvi-beige': '#f7f3ed',
+                        'novvi-footer': '#1a202c',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/properties.css">
+</head>
+<body class="font-sans antialiased" style="font-family: 'Inter', sans-serif;">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 pt-[env(safe-area-inset-top)]">
+        <!-- Top Bar - Always visible on scroll -->
+        <div class="border-b border-gray-200 bg-white">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-14 sm:h-16 lg:h-20">
+                    <!-- Logo -->
+                    <a href="#" class="flex items-center group min-w-0">
+                        <span class="text-xl sm:text-2xl lg:text-3xl font-bold text-novvi-dark group-hover:text-novvi-orange transition-colors">NOVVI</span>
+                        <span class="ml-1 sm:ml-2 text-xs sm:text-sm lg:text-base text-novvi-gray font-normal truncate">PROPERTIES</span>
+                    </a>
+
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden lg:flex items-center gap-8">
+                        <a href="#" class="text-novvi-dark font-medium hover:text-novvi-orange transition-colors">Properties</a>
+                        <a href="#" class="text-novvi-dark font-medium hover:text-novvi-orange transition-colors">Developers</a>
+                        <a href="#" class="text-novvi-dark font-medium hover:text-novvi-orange transition-colors">About Us</a>
+                        <a href="#" class="text-novvi-dark font-medium hover:text-novvi-orange transition-colors">Contact Us</a>
+                        <a href="#" class="text-novvi-dark font-medium hover:text-novvi-orange transition-colors">Blog</a>
+                    </nav>
+
+                    <!-- Right Icons -->
+                    <div class="flex items-center gap-1 sm:gap-2 lg:gap-4 shrink-0">
+                        <button class="hidden sm:inline-flex text-novvi-gray hover:text-novvi-orange transition-colors px-2 py-1 border border-gray-200 rounded hover:border-novvi-orange text-sm">AED</button>
+                        <button class="hidden sm:inline-flex text-novvi-gray hover:text-novvi-orange transition-colors px-2 py-1 border border-gray-200 rounded hover:border-novvi-orange text-sm">English</button>
+                        <button class="icon-hover p-2.5 sm:p-2 text-novvi-gray hover:text-novvi-orange transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
+                            <i class="fa-regular fa-bell text-base sm:text-lg"></i>
+                        </button>
+                        <button class="icon-hover p-2.5 sm:p-2 text-novvi-gray hover:text-novvi-orange transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
+                            <i class="fa-regular fa-message text-base sm:text-lg"></i>
+                        </button>
+                        <button class="icon-hover p-2.5 sm:p-2 text-novvi-gray hover:text-novvi-orange transition-all min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center">
+                            <i class="fa-regular fa-user text-base sm:text-lg"></i>
+                        </button>
+                        <button class="lg:hidden p-2.5 text-novvi-dark min-w-[44px] min-h-[44px] flex items-center justify-center" id="mobileMenuBtn">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-gray-200">
+            <nav class="px-3 sm:px-4 py-4 space-y-0">
+                <a href="#" class="block py-3 min-h-[48px] md:flex items-center text-novvi-dark font-medium hover:text-novvi-orange active:bg-gray-50">Properties</a>
+                <a href="#" class="block py-3 min-h-[48px] md:flex items-center text-novvi-dark font-medium hover:text-novvi-orange active:bg-gray-50">Developers</a>
+                <a href="#" class="block py-3 min-h-[48px] md:flex items-center text-novvi-dark font-medium hover:text-novvi-orange active:bg-gray-50">About Us</a>
+                <a href="#" class="block py-3 min-h-[48px] md:flex items-center text-novvi-dark font-medium hover:text-novvi-orange active:bg-gray-50">Contact Us</a>
+                <a href="#" class="block py-3 min-h-[48px] md:flex items-center text-novvi-dark font-medium hover:text-novvi-orange active:bg-gray-50">Blog</a>
+            </nav>
+        </div>
+
+        <!-- Search Bar - Hides on scroll down (smooth slide) -->
+        <div id="searchBarWrapper" class="search-bar-wrapper">
+        <div id="searchBar" class="search-bar bg-gray-50 border-b border-gray-200 py-3 sm:py-4">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+                <div class="flex flex-col gap-3 lg:flex-row lg:gap-4 lg:items-center">
+                    <!-- Search input - full width on mobile, flex on desktop -->
+                    <div class="flex-1 min-w-0 w-full lg:min-w-[280px] relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-novvi-gray text-sm sm:text-base"></i>
+                        <input type="text" placeholder="Search by locality and more..." class="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-novvi-orange focus:border-transparent hover:border-gray-300 transition-colors">
+                    </div>
+                    <!-- Filters - 2x2 grid on mobile, single row on desktop -->
+                    <div class="grid grid-cols-2 sm:flex sm:flex-wrap lg:flex-nowrap gap-2 lg:gap-3 lg:shrink-0">
+                        <select class="w-full lg:w-auto lg:min-w-[120px] px-3 sm:px-4 py-3 text-sm sm:text-base bg-white border border-gray-200 rounded-lg text-novvi-gray hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-novvi-orange transition-colors cursor-pointer">
+                            <option>Property Type</option>
+                        </select>
+                        <select class="w-full lg:w-auto lg:min-w-[100px] px-3 sm:px-4 py-3 text-sm sm:text-base bg-white border border-gray-200 rounded-lg text-novvi-gray hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-novvi-orange transition-colors cursor-pointer">
+                            <option>Buy/Rent</option>
+                        </select>
+                        <select class="w-full lg:w-auto lg:min-w-[120px] px-3 sm:px-4 py-3 text-sm sm:text-base bg-white border border-gray-200 rounded-lg text-novvi-gray hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-novvi-orange transition-colors cursor-pointer">
+                            <option>Price Range</option>
+                        </select>
+                        <select class="w-full lg:w-auto lg:min-w-[100px] px-3 sm:px-4 py-3 text-sm sm:text-base bg-white border border-gray-200 rounded-lg text-novvi-gray hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-novvi-orange transition-colors cursor-pointer">
+                            <option>Bedrooms</option>
+                        </select>
+                    </div>
+                    <!-- Search button -->
+                    <button class="btn-primary w-full lg:w-auto flex items-center justify-center gap-2 px-6 py-3.5 min-h-[48px] bg-novvi-orange text-white rounded-lg font-medium hover:bg-novvi-orange-hover transition-colors shrink-0">
+                        <i class="fa-solid fa-house"></i>
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="bg-white">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+            <!-- Section Title -->
+            <div class="mb-4 sm:mb-6">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-novvi-dark">Residential Properties in Dubai</h1>
+                <p class="text-novvi-gray mt-1 text-sm sm:text-base">Showing 247 search results</p>
+            </div>
+
+            <!-- Filter Tabs & Sort -->
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6">
+                <div class="filter-tabs-wrap flex flex-wrap gap-2">
+                    <button class="filter-tab active px-4 py-2.5 min-h-[44px] rounded-full bg-novvi-dark text-white font-medium text-sm sm:text-base">All</button>
+                    <button class="filter-tab px-4 py-2.5 min-h-[44px] rounded-full bg-gray-100 text-novvi-gray hover:bg-gray-200 font-medium transition-colors text-sm sm:text-base">Sale</button>
+                    <button class="filter-tab px-4 py-2.5 min-h-[44px] rounded-full bg-gray-100 text-novvi-gray hover:bg-gray-200 font-medium transition-colors text-sm sm:text-base">Rent</button>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+                    <div class="flex border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="view-toggle active p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-novvi-dark text-white"><i class="fa-solid fa-grip"></i></button>
+                        <button class="view-toggle p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-gray-100 text-novvi-gray hover:bg-gray-200"><i class="fa-solid fa-list"></i></button>
+                    </div>
+                    <select class="flex-1 sm:flex-none min-w-0 px-3 sm:px-4 py-2.5 min-h-[44px] text-sm sm:text-base border border-gray-200 rounded-lg text-novvi-gray focus:outline-none focus:ring-2 focus:ring-novvi-orange cursor-pointer">
+                        <option>Sort by: Most Recent</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Property Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6" id="propertyGrid">
+                <!-- Property Card 1 -->
+                <div class="property-card group bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-xl sm:hover:shadow-xl transition-all duration-300">
+                    <div class="property-image-wrapper relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop" alt="Property" class="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                        <div class="image-overlay-icons absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors">
+                                <i class="fa-solid fa-camera text-sm"></i>
+                            </button>
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors">
+                                <i class="fa-solid fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <span class="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 px-2.5 py-0.5 sm:px-3 sm:py-1 bg-novvi-dark text-white text-xs sm:text-sm font-medium rounded">For Sale</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <p class="text-lg sm:text-xl font-bold text-novvi-dark">AED 1,250,000</p>
+                        <p class="text-novvi-gray text-xs sm:text-sm mt-1 line-clamp-2">One Bedroom | Blue Waters Area | Dubai Marina</p>
+                        <button class="btn-enquire mt-3 px-4 py-2.5 min-h-[44px] bg-novvi-orange/10 text-novvi-orange rounded-lg text-sm font-medium hover:bg-novvi-orange hover:text-white transition-colors">Enquire Now</button>
+                        <div class="flex gap-3 sm:gap-4 mt-3 text-novvi-gray text-xs sm:text-sm">
+                            <span><i class="fa-solid fa-bed mr-1"></i>3</span>
+                            <span><i class="fa-solid fa-bath mr-1"></i>2</span>
+                            <span><i class="fa-solid fa-ruler-combined mr-1"></i>1900 Sqft</span>
+                        </div>
+                        <div class="flex justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-phone"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-brands fa-whatsapp"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-regular fa-heart"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-code-compare"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 2 -->
+                <div class="property-card group bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-xl sm:hover:shadow-xl transition-all duration-300">
+                    <div class="property-image-wrapper relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop" alt="Property" class="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                        <div class="image-overlay-icons absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-camera text-sm"></i></button>
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-play text-sm"></i></button>
+                        </div>
+                        <span class="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 px-2.5 py-0.5 sm:px-3 sm:py-1 bg-novvi-dark text-white text-xs sm:text-sm font-medium rounded">For Rent</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <p class="text-lg sm:text-xl font-bold text-novvi-dark">AED 85,000</p>
+                        <p class="text-novvi-gray text-xs sm:text-sm mt-1 line-clamp-2">Two Bedroom | Downtown Dubai | Business Bay</p>
+                        <button class="btn-enquire mt-3 px-4 py-2.5 min-h-[44px] bg-novvi-orange/10 text-novvi-orange rounded-lg text-sm font-medium hover:bg-novvi-orange hover:text-white transition-colors">Enquire Now</button>
+                        <div class="flex gap-3 sm:gap-4 mt-3 text-novvi-gray text-xs sm:text-sm">
+                            <span><i class="fa-solid fa-bed mr-1"></i>2</span>
+                            <span><i class="fa-solid fa-bath mr-1"></i>2</span>
+                            <span><i class="fa-solid fa-ruler-combined mr-1"></i>1200 Sqft</span>
+                        </div>
+                        <div class="flex justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-phone"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-brands fa-whatsapp"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-regular fa-heart"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-code-compare"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 3 -->
+                <div class="property-card group bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-xl sm:hover:shadow-xl transition-all duration-300">
+                    <div class="property-image-wrapper relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop" alt="Property" class="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                        <div class="image-overlay-icons absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-camera text-sm"></i></button>
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-play text-sm"></i></button>
+                        </div>
+                        <span class="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 px-2.5 py-0.5 sm:px-3 sm:py-1 bg-novvi-dark text-white text-xs sm:text-sm font-medium rounded">For Sale</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <p class="text-lg sm:text-xl font-bold text-novvi-dark">AED 2,500,000</p>
+                        <p class="text-novvi-gray text-xs sm:text-sm mt-1 line-clamp-2">Three Bedroom Villa | Palm Jumeirah</p>
+                        <button class="btn-enquire mt-3 px-4 py-2.5 min-h-[44px] bg-novvi-orange/10 text-novvi-orange rounded-lg text-sm font-medium hover:bg-novvi-orange hover:text-white transition-colors">Enquire Now</button>
+                        <div class="flex gap-3 sm:gap-4 mt-3 text-novvi-gray text-xs sm:text-sm">
+                            <span><i class="fa-solid fa-bed mr-1"></i>3</span>
+                            <span><i class="fa-solid fa-bath mr-1"></i>3</span>
+                            <span><i class="fa-solid fa-ruler-combined mr-1"></i>2500 Sqft</span>
+                        </div>
+                        <div class="flex justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-phone"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-brands fa-whatsapp"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-regular fa-heart"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-code-compare"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 4 -->
+                <div class="property-card group bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-xl sm:hover:shadow-xl transition-all duration-300">
+                    <div class="property-image-wrapper relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop" alt="Property" class="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                        <div class="image-overlay-icons absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-camera text-sm"></i></button>
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-play text-sm"></i></button>
+                        </div>
+                        <span class="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 px-2.5 py-0.5 sm:px-3 sm:py-1 bg-novvi-dark text-white text-xs sm:text-sm font-medium rounded">For Rent</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <p class="text-lg sm:text-xl font-bold text-novvi-dark">AED 120,000</p>
+                        <p class="text-novvi-gray text-xs sm:text-sm mt-1 line-clamp-2">Four Bedroom | Arabian Ranches</p>
+                        <button class="btn-enquire mt-3 px-4 py-2.5 min-h-[44px] bg-novvi-orange/10 text-novvi-orange rounded-lg text-sm font-medium hover:bg-novvi-orange hover:text-white transition-colors">Enquire Now</button>
+                        <div class="flex gap-3 sm:gap-4 mt-3 text-novvi-gray text-xs sm:text-sm">
+                            <span><i class="fa-solid fa-bed mr-1"></i>4</span>
+                            <span><i class="fa-solid fa-bath mr-1"></i>4</span>
+                            <span><i class="fa-solid fa-ruler-combined mr-1"></i>3200 Sqft</span>
+                        </div>
+                        <div class="flex justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-phone"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-brands fa-whatsapp"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-regular fa-heart"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-code-compare"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 5 -->
+                <div class="property-card group bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-xl sm:hover:shadow-xl transition-all duration-300">
+                    <div class="property-image-wrapper relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop" alt="Property" class="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                        <div class="image-overlay-icons absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-camera text-sm"></i></button>
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-play text-sm"></i></button>
+                        </div>
+                        <span class="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 px-2.5 py-0.5 sm:px-3 sm:py-1 bg-novvi-dark text-white text-xs sm:text-sm font-medium rounded">For Sale</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <p class="text-lg sm:text-xl font-bold text-novvi-dark">AED 890,000</p>
+                        <p class="text-novvi-gray text-xs sm:text-sm mt-1 line-clamp-2">Studio | JBR | Dubai Marina</p>
+                        <button class="btn-enquire mt-3 px-4 py-2.5 min-h-[44px] bg-novvi-orange/10 text-novvi-orange rounded-lg text-sm font-medium hover:bg-novvi-orange hover:text-white transition-colors">Enquire Now</button>
+                        <div class="flex gap-3 sm:gap-4 mt-3 text-novvi-gray text-xs sm:text-sm">
+                            <span><i class="fa-solid fa-bed mr-1"></i>1</span>
+                            <span><i class="fa-solid fa-bath mr-1"></i>1</span>
+                            <span><i class="fa-solid fa-ruler-combined mr-1"></i>650 Sqft</span>
+                        </div>
+                        <div class="flex justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-phone"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-brands fa-whatsapp"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-regular fa-heart"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-code-compare"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 6 -->
+                <div class="property-card group bg-white rounded-lg sm:rounded-xl shadow-md overflow-hidden hover:shadow-xl sm:hover:shadow-xl transition-all duration-300">
+                    <div class="property-image-wrapper relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop" alt="Property" class="w-full h-48 sm:h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                        <div class="image-overlay-icons absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-camera text-sm"></i></button>
+                            <button class="icon-btn w-8 h-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-novvi-orange hover:text-white transition-colors"><i class="fa-solid fa-play text-sm"></i></button>
+                        </div>
+                        <span class="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 px-2.5 py-0.5 sm:px-3 sm:py-1 bg-novvi-dark text-white text-xs sm:text-sm font-medium rounded">For Rent</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <p class="text-lg sm:text-xl font-bold text-novvi-dark">AED 95,000</p>
+                        <p class="text-novvi-gray text-xs sm:text-sm mt-1 line-clamp-2">Two Bedroom | DIFC | Gate Avenue</p>
+                        <button class="btn-enquire mt-3 px-4 py-2.5 min-h-[44px] bg-novvi-orange/10 text-novvi-orange rounded-lg text-sm font-medium hover:bg-novvi-orange hover:text-white transition-colors">Enquire Now</button>
+                        <div class="flex gap-3 sm:gap-4 mt-3 text-novvi-gray text-xs sm:text-sm">
+                            <span><i class="fa-solid fa-bed mr-1"></i>2</span>
+                            <span><i class="fa-solid fa-bath mr-1"></i>2</span>
+                            <span><i class="fa-solid fa-ruler-combined mr-1"></i>1400 Sqft</span>
+                        </div>
+                        <div class="flex justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-phone"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-brands fa-whatsapp"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-regular fa-heart"></i></button>
+                            <button class="action-icon p-2 text-novvi-gray hover:text-novvi-orange hover:bg-novvi-orange/10 rounded-lg transition-all"><i class="fa-solid fa-code-compare"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-8 sm:mt-12">
+                <nav class="flex items-center gap-2">
+                    <button class="pagination-btn p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg border border-gray-200 text-novvi-gray hover:bg-gray-100 hover:text-novvi-dark transition-colors">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="pagination-btn active w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-novvi-dark text-white font-medium flex items-center justify-center">1</button>
+                    <span class="px-2 text-novvi-gray text-sm">...</span>
+                    <button class="pagination-btn p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg border border-gray-200 text-novvi-gray hover:bg-gray-100 hover:text-novvi-dark transition-colors">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-gray-200 shadow-lg z-40 px-3 sm:px-4 py-3 sm:py-4 pb-[env(safe-area-inset-bottom)]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4">
+            <p class="text-xs sm:text-sm text-novvi-gray">We use cookies to enhance your browsing experience, serve personalized ads or content and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.</p>
+            <div class="flex gap-2 sm:gap-3 shrink-0 w-full sm:w-auto">
+                <button class="flex-1 sm:flex-none px-4 py-2.5 min-h-[44px] border border-gray-300 text-novvi-gray rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-base">Customise</button>
+                <button id="acceptCookies" class="flex-1 sm:flex-none px-4 py-2.5 min-h-[44px] bg-novvi-orange text-white rounded-lg font-medium hover:bg-novvi-orange-hover transition-colors text-sm sm:text-base">Accept All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp -->
+    <a href="#" id="whatsappBtn" class="fixed bottom-24 sm:bottom-6 right-4 sm:right-6 md:right-8 w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 hover:shadow-xl transition-all z-50 active:scale-95">
+        <i class="fa-brands fa-whatsapp text-lg sm:text-xl md:text-2xl"></i>
+    </a>
+
+    <!-- Footer Sitemap -->
+    <div class="bg-novvi-beige py-6 sm:py-12 mt-6 sm:mt-8">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div>
+                    <h3 class="font-bold text-novvi-dark mb-3 sm:mb-4 text-base sm:text-lg">Residential Properties For Sale</h3>
+                    <ul class="space-y-1.5 sm:space-y-2 text-novvi-gray text-sm">
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Apartments For Sale In Dubai</a></li>
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Townhouses For Sale In Dubai</a></li>
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Villas For Sale In Dubai</a></li>
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Penthouses For Sale In Dubai</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-novvi-dark mb-3 sm:mb-4 text-base sm:text-lg">Residential Properties For Rent</h3>
+                    <ul class="space-y-1.5 sm:space-y-2 text-novvi-gray text-sm">
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Apartments For Rent In Dubai</a></li>
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Townhouses For Rent In Dubai</a></li>
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Villas For Rent In Dubai</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-novvi-dark mb-3 sm:mb-4 text-base sm:text-lg">Off-Plan Properties</h3>
+                    <ul class="space-y-1.5 sm:space-y-2 text-novvi-gray text-sm">
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">Off-Plan Projects In Dubai</a></li>
+                        <li><a href="#" class="hover:text-novvi-orange transition-colors py-1 block">New Launch Properties</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Footer -->
+    <footer class="bg-novvi-footer text-gray-300">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-bold text-white">NOVVI <span class="font-normal text-gray-400">PROPERTIES</span></h2>
+                    <p class="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-400 leading-relaxed">Your trusted partner for finding the perfect residential property in Dubai. We offer a wide range of apartments, villas, and townhouses.</p>
+                    <div class="mt-4 sm:mt-6">
+                        <p class="font-medium text-white mb-2 text-sm sm:text-base">Subscribe To Our Newsletter</p>
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <input type="email" placeholder="Your email" class="flex-1 min-w-0 px-4 py-2.5 min-h-[44px] bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-novvi-orange text-sm sm:text-base">
+                            <button class="px-4 py-2.5 min-h-[44px] bg-novvi-orange text-white rounded-lg font-medium hover:bg-novvi-orange-hover transition-colors text-sm sm:text-base">Subscribe</button>
+                        </div>
+                    </div>
+                    <div class="mt-4 sm:mt-6">
+                        <p class="font-medium text-white mb-2 sm:mb-3 text-sm sm:text-base">Follow Us</p>
+                        <div class="flex flex-wrap gap-2 sm:gap-3">
+                            <a href="#" class="social-icon w-10 h-10 min-w-[44px] min-h-[44px] rounded-full border border-gray-600 flex items-center justify-center hover:border-novvi-orange hover:text-novvi-orange transition-all"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon w-10 h-10 min-w-[44px] min-h-[44px] rounded-full border border-gray-600 flex items-center justify-center hover:border-novvi-orange hover:text-novvi-orange transition-all"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon w-10 h-10 min-w-[44px] min-h-[44px] rounded-full border border-gray-600 flex items-center justify-center hover:border-novvi-orange hover:text-novvi-orange transition-all"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon w-10 h-10 min-w-[44px] min-h-[44px] rounded-full border border-gray-600 flex items-center justify-center hover:border-novvi-orange hover:text-novvi-orange transition-all"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-icon w-10 h-10 min-w-[44px] min-h-[44px] rounded-full border border-gray-600 flex items-center justify-center hover:border-novvi-orange hover:text-novvi-orange transition-all"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-icon w-10 h-10 min-w-[44px] min-h-[44px] rounded-full border border-gray-600 flex items-center justify-center hover:border-novvi-orange hover:text-novvi-orange transition-all"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
+                    </div>
+                    <div class="mt-4 sm:mt-6">
+                        <p class="font-medium text-white mb-2 text-sm sm:text-base">Quick Links</p>
+                        <div class="flex flex-wrap gap-x-2 gap-y-1 text-xs sm:text-sm">
+                            <a href="#" class="hover:text-novvi-orange transition-colors">About Us</a>
+                            <span>•</span>
+                            <a href="#" class="hover:text-novvi-orange transition-colors">Careers</a>
+                            <span>•</span>
+                            <a href="#" class="hover:text-novvi-orange transition-colors">Services</a>
+                            <span>•</span>
+                            <a href="#" class="hover:text-novvi-orange transition-colors">Blog</a>
+                            <span>•</span>
+                            <a href="#" class="hover:text-novvi-orange transition-colors">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-3 sm:mb-4 text-base sm:text-lg">Contact Us</h3>
+                    <p class="text-sm text-gray-400">NOVVI Properties Office<br>Dubai, UAE</p>
+                    <p class="mt-2 text-sm"><a href="mailto:info@novvipr.com" class="hover:text-novvi-orange transition-colors">info@novvipr.com</a></p>
+                    <p class="mt-2 text-sm"><a href="tel:+971123456789" class="hover:text-novvi-orange transition-colors">+971 12 345 6789</a></p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-3 sm:mb-4 text-base sm:text-lg">Let's Connect</h3>
+                    <form class="space-y-3">
+                        <input type="text" placeholder="Your Name" class="w-full px-4 py-2.5 min-h-[44px] text-sm sm:text-base bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-novvi-orange">
+                        <input type="email" placeholder="Your Email" class="w-full px-4 py-2.5 min-h-[44px] text-sm sm:text-base bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-novvi-orange">
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <select class="px-3 py-2.5 min-h-[44px] text-sm sm:text-base bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-novvi-orange">
+                                <option>🇦🇪 +971</option>
+                            </select>
+                            <input type="tel" placeholder="Your Phone No" class="flex-1 min-w-0 px-4 py-2.5 min-h-[44px] text-sm sm:text-base bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-novvi-orange">
+                        </div>
+                        <textarea placeholder="Message" rows="3" class="w-full px-4 py-2.5 text-sm sm:text-base bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-novvi-orange resize-none min-h-[100px]"></textarea>
+                        <button type="submit" class="w-full px-4 py-3 min-h-[48px] bg-novvi-orange text-white rounded-lg font-medium hover:bg-novvi-orange-hover transition-colors text-sm sm:text-base">Send Message</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 sm:mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs sm:text-sm text-gray-500 text-center md:text-left">© 2026 NOVVI Properties. All Right Reserved</p>
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm">
+                    <a href="#" class="hover:text-novvi-orange transition-colors">Terms and Conditions</a>
+                    <a href="#" class="hover:text-novvi-orange transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-novvi-orange transition-colors">Careers</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/properties.js"></script>
+</body>
+</html>

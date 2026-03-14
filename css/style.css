@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: "book";
+  src: url("/Adarsh/fonts/FuturaBT-Book.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "medium";
+  src: url("/Adarsh/fonts/FuturaBT-Medium.ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+:root {
+  --primary-color: #2d3250;
+  --secondery-color: #f8b179;
+  --text-gray: #424669;
+  --text-Lightgray: #676f9d;
+  --text-light: #ffffff;
+}
+
+header {
+  border-bottom: 1px solid hsla(180, 2%, 82%, 0.502);
+  box-shadow: none;
+  padding: 2em 0;
+  font-family: "book";
+  position: relative;
+  z-index: 99;
+}
+
+

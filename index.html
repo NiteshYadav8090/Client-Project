@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlueStone · refined edge</title>
+    <!-- Tailwind (v4 via browser) + Remix Icon -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+    <style>
+        .swiper-button-next,
+        .swiper-button-prev {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: #fbbf24;
+            border-color: #fbbf24;
+        }
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .swiper-button-next:hover:after,
+        .swiper-button-prev:hover:after {
+            color: #212829;
+        }
+
+        /* Hide navigation on mobile if needed */
+        @media (max-width: 640px) {
+
+            .swiper-button-next,
+            .swiper-button-prev {
+                display: none;
+            }
+
+
+            .swiper-wrapper {
+
+                margin-right: 40px;
+            }
+        }
+
+        .swiper-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+
+
+        .property-card {
+            transition: transform 0.4s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card-overlay {
+            background: linear-gradient(to top,
+                    rgba(33, 40, 41, 0.95) 0%,
+                    rgba(33, 40, 41, 0.6) 40%,
+                    rgba(33, 40, 41, 0.2) 80%,
+                    transparent 100%);
+        }
+
+        .service-card {
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-overlay {
+            background: linear-gradient(90deg, rgba(58, 71, 77, 0.95) 0%, rgba(58, 71, 77, 0.4) 100%);
+        }
+
+        /* smooth select background inside glass element */
+
+
+        /* Filter dropdown hover */
+        .filter-dropdown:hover {
+            border-color: #c4a574;
+        }
+
+        /* Bedroom tag active state */
+        .bedroom-tag.active {
+            background: #c4a574;
+            border-color: #c4a574;
+            color: white;
+        }
+
+        /* View toggle buttons */
+        .view-btn.active {
+            background: #c4a574;
+            color: white;
+        }
+
+        .view-btn:not(.active):hover {
+            background: #f3f4f6;
+        }
+
+        /* Pagination hover */
+        .pagination-btn:not(.active):hover {
+            background: #f3f4f6;
+            color: #1a1a1a;
+        }
+
+        /* Social icon hover - lift effect */
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+
+        .social-icon {
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .form-input {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .form-input:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+
+        .form-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(251, 191, 36, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .submit-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- main container: full-screen hero with background -->
+    <div class="relative bg-cover bg-center bg-no-repeat min-h-screen flex flex-col"
+        style="background-image: url('img/video-frame.webp');">
+        <!-- semi-transparent overlay for better text contrast (dark & warm tone) -->
+        <div
+            class="absolute inset-0 bg-gradient-to-b from-[#0c1518]/80 via-[#16292e]/70 to-[#1d2f33]/80 pointer-events-none">
+        </div>
+
+        <!-- content with high z-index -->
+        <div class="relative z-10 flex flex-col min-h-screen">
+
+            <!-- HEADER – refined spacing, glassmorphism touch -->
+            <header
+                class="flex items-center justify-between px-4 md:px-10 lg:px-16 py-5 md:py-6  bg-[linear-gradient(180deg,rgba(8,33,4,.0),rgba(24,27,28,0))]">
+                <!-- left: logo + nav -->
+                <div class="flex items-center gap-8 lg:gap-16">
+                    <!-- logo: svg-like appearance (using text + icon for flexibility) -->
+                    <div class="flex items-center gap-1 text-white">
+                        <i class="ri-building-2-line text-3xl lg:text-4xl text-amber-300"></i>
+                        <span class="font-semibold text-xl lg:text-2xl tracking-tight">BlueStone<span
+                                class="text-amber-300/90">.</span></span>
+                    </div>
+                    <!-- navigation menu (elegant, light text) -->
+                    <ul
+                        class="menu hidden md:flex items-center space-x-6 lg:space-x-10 text-white/90 font-medium text-sm lg:text-base">
+                        <li><a href="off_plan.html" class="transition text-white">Off Plan</a></li>
+                        <li><a href="properties.html" class="transition text-white">Residential</a></li>
+                        <li><a href="#" class="transition text-white">List With Us</a></li>
+                        <li><a href="#" class="transition text-white">Careers</a></li>
+                    </ul>
+                </div>
+
+                <!-- right: language selector + CTA (enhanced) -->
+                <div class="flex items-center gap-3 sm:gap-5 lg:gap-8">
+                    <!-- language glass control refined -->
+                    <div
+                        class="glass-select flex items-center border border-white/30 bg-white/5 backdrop-blur-sm text-white rounded-full px-3 py-1.5 sm:px-4 sm:py-2 gap-1">
+                        <i class="ri-global-line text-lg sm:text-xl"></i>
+                        <select class="bg-transparent text-sm sm:text-base outline-none cursor-pointer pr-1">
+                            <option value="Eng" class="text-gray-800" selected>EN</option>
+                            <option value="AR" class="text-gray-800">AR</option>
+                            <option value="IT" class="text-gray-800">IT</option>
+                        </select>
+                    </div>
+                    <!-- talk to us – elegant link with icon -->
+                    <a href="#"
+                        class="hidden sm:flex items-center gap-1 text-white font-medium text-sm lg:text-base group">
+                        <span>Talk to BlueStone</span>
+                        <i
+                            class="ri-arrow-right-up-line text-lg group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    </a>
+                    <!-- mobile menu icon (visible on small screens) -->
+                    <button class="  text-white text-2xl">
+                        <i class="ri-menu-2-fill"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN HERO CONTENT – bold, balanced, modern -->
+            <div class="flex-1 flex items-center px-4 md:px-10 lg:px-16 py-8 md:py-12">
+                <div class="max-w-3xl text-white">
+                    <!-- eyebrow / tagline -->
+                    <span
+                        class="inline-block text-amber-300 font-semibold text-sm uppercase tracking-[0.2em] mb-4 bg-black/20 px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/10">✦
+                        beyond the ordinary</span>
+                    <!-- main headline -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+                        <span class="block">Live where</span>
+                        <span class="block text-amber-200/90">the city breathes</span>
+                    </h1>
+                    <!-- description -->
+                    <p class="text-white/80 text-base sm:text-lg max-w-xl mt-6 mb-8 leading-relaxed">
+                        Off‑plan residences, curated penthouses, and investment-ready properties.
+                        Your next address starts with BlueStone.
+                    </p>
+                    <!-- CTA group + search like bar (interactive element) -->
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="#"
+                            class="bg-amber-300 hover:bg-amber-400 text-gray-900 font-semibold px-7 py-3.5 rounded-full shadow-lg transition flex items-center gap-2 text-sm sm:text-base">
+                            <i class="ri-search-line"></i> Explore properties
+                        </a>
+                        <a href="#"
+                            class="border border-white/30 backdrop-blur-sm bg-white/5 hover:bg-white/15 text-white px-7 py-3.5 rounded-full transition flex items-center gap-2 text-sm sm:text-base">
+                            <i class="ri-calendar-line"></i> Book a viewing
+                        </a>
+                    </div>
+
+                    <!-- quick search / filter chips – adds richness -->
+                    <div class="mt-10 flex flex-wrap items-center gap-3 text-white/80">
+                        <span class="text-xs uppercase tracking-wider text-white/40">Popular:</span>
+                        <span
+                            class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm border border-white/10 flex items-center gap-1"><i
+                                class="ri-flashlight-line text-amber-300"></i> Off Plan</span>
+                        <span
+                            class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm border border-white/10 flex items-center gap-1"><i
+                                class="ri-building-line text-amber-300"></i> Luxury</span>
+                        <span
+                            class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm border border-white/10 flex items-center gap-1"><i
+                                class="ri-water-flash-line text-amber-300"></i> Waterfront</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 rounded-2xl shadow-lg p-4 m-auto mb-12 mt-[40px] md:p-6 w-full max-w-6xl">
+
+                <!-- Top Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+
+                    <!-- Buy Rent -->
+                    <div class="flex bg-white rounded-lg overflow-hidden p-2">
+                        <button class="flex-1 rounded-sm bg-[#e7f0f2]   font-medium">Buy</button>
+                        <button class="flex-1 py-2">Rent</button>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="md:col-span-2 flex items-center bg-white rounded-lg px-3 border">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-2" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <input type="text" placeholder="Search city, apartment..." class="w-full py-2 outline-none">
+                    </div>
+
+                    <!-- Search Button -->
+                    <button class="bg-gray-800 text-white rounded-lg py-2 hover:bg-gray-900">
+                        Search
+                    </button>
+
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+
+                    <!-- Ready Off Plan -->
+                    <div class="flex  bg-white p-2 rounded-lg  overflow-hidden">
+                        <button class="flex-1  bg-[#e7f0f2] font-medium rounded-sm text-sm">Ready</button>
+                        <button class="flex-1 py-2 text-sm">Off-Plan</button>
+                    </div>
+
+                    <!-- Residential -->
+                    <select class="bg-white border rounded-lg py-2 px-3 text-sm">
+                        <option>Residential</option>
+                        <option>Commercial</option>
+                    </select>
+
+                    <!-- Area -->
+                    <select class="bg-white border rounded-lg py-2 px-3 text-sm">
+                        <option>Area (sq ft)</option>
+                        <option>500+</option>
+                        <option>1000+</option>
+                    </select>
+
+                    <!-- Price -->
+                    <select class="bg-white border rounded-lg py-2 px-3 text-sm">
+                        <option>Price (AED)</option>
+                        <option>100k+</option>
+                        <option>500k+</option>
+                    </select>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Explore about  -->
+    <section class="px-10 md:px-16 py-14 ">
+
+        <div class="flex flex-col lg:flex-row items-center gap-10">
+
+            <!-- Text Content -->
+            <div class="lg:w-1/2 selection:bg-fuchsia-300 selection:text-fuchsia-900">
+                <h2 class="text-3xl md:text-4xl font-semibold mb-6">
+                    Your Trusted Partner for Dubai <br> Real Estate
+                </h2>
+
+                <p class="text-gray-600 leading-relaxed">
+                    Real estate is personal, but it demands professional precision. <br>
+                    As a trusted brokerage with years of industry experience, **BlueStone Realty** <br> empowers you to
+                    buy,
+                    sell, and invest with complete confidence.
+                    <br>
+                    We combine strong market knowledge with modern technology to <br> ensure every transaction—whether a
+                    new
+                    development or <br> a ready property—is transparent, smooth, and tailored to your goals.
+                    <br>
+                    For us, it’s not just about closing deals; it’s about helping you secure <br> the right property and
+                    build a future with lasting value.
+
+                </p>
+
+                <button
+                    class="mt-6 bg-[#1d2f33] text-white px-6 py-3 border-1  rounded-lg hover:bg-transparent hover:text-gray-900 hover:border-black transition">
+                    Explore More About Us
+                </button>
+            </div>
+
+
+            <!-- Images -->
+            <div class="lg:w-1/2 flex gap-4">
+
+                <img src="img/s.avif" class="w-1/2 rounded-lg object-cover h-64 md:h-100">
+
+                <img src="img/Dubai.webp" class="w-1/2 rounded-lg object-cover h-64 md:h-100 mt-8">
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- developer carousel (swiper) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <h2 class="text-center text-2xl md:text-3xl font-semibold mb-12 text-gray-800">Trusted By Top Developers</h2>
+        <div class="swiper mySwiper overflow-hidden py-2">
+            <div class="swiper-wrapper" id="swiper-wrapper">
+                <!-- slides with nicer placeholders -->
+                <div class="swiper-slide">
+                    <div
+                        class="bg-white border-1 rounded-xl shadow-lg p-2  flex items-center justify-center h-28 w-50 hover:shadow-xl transition">
+                        <img src="https://www.novviproperties.com/_next/image?url=https%3A%2F%2Fapi.novviproperties.com%2Fuploads%2Fmedias%2F1728043391672-Deca.jpg&w=384&q=80"
+                            class="h-20 object-contain">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div
+                        class="bg-white rounded-xl shadow-lg p-2 border-1  flex items-center justify-center h-28 w-50 hover:shadow-xl transition">
+                        <img src="https://placehold.co/150x40/744210/white?text=DAMAhttps://www.novviproperties.com/_next/image?url=https%3A%2F%2Fapi.novviproperties.com%2Fuploads%2Fmedias%2F1758628858869-stake.png&w=384&q=80C"
+                            class="h-20 object-contain">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div
+                        class="bg-white rounded-xl shadow-lg p-2 border-1  flex items-center justify-center h-28 w-50 hover:shadow-xl transition">
+                        <img src="https://www.novviproperties.com/_next/image?url=https%3A%2F%2Fapi.novviproperties.com%2Fuploads%2Fmedias%2F1727785795346-partner2.png&w=384&q=80"
+                            class="h-20 object-contain">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div
+                        class="bg-white rounded-xl shadow-lg border-1  p-2 flex items-center justify-center h-28 w-50 hover:shadow-xl transition">
+                        <img src="https://www.novviproperties.com/_next/image?url=https%3A%2F%2Fapi.novviproperties.com%2Fuploads%2Fmedias%2F1727936612037-Imtiaz.png&w=384&q=80"
+                            class="h-20 object-contain">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div
+                        class="bg-white rounded-xl shadow-lg p-2 border-1  flex items -center justify-center h-28 w-50 hover:shadow-xl transition">
+                        <img src="https://www.novviproperties.com/_next/image?url=https%3A%2F%2Fapi.novviproperties.com%2Fuploads%2Fmedias%2F1727785795346-partner1.png&w=384&q=80"
+                            class="h-20 object-contain">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div
+                        class="bg-white rounded-xl shadow-lg border-1  p-2 flex items-center justify-center h-28 w-50 hover:shadow-xl transition">
+                        <img src="https://www.novviproperties.com/_next/image?url=https%3A%2F%2Fapi.novviproperties.com%2Fuploads%2Fmedias%2F1727785753510-Nakheel_Logo.jpg&w=384&q=80"
+                            class="h-20 object-contain">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div
+                        class="bg-white rounded-xl shadow-lg border-1  p-2 flex items-center justify-center h-28 w-50 hover:shadow-xl transition">
+                        <img src="https://www.novviproperties.com/_next/image?url=https%3A%2F%2Fapi.novviproperties.com%2Fuploads%2Fmedias%2F1727785753513-Azizi-Logo_(1).jpg&w=384&q=80"
+                            class="h-20 object-contain">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="bg-[#212829]">
+        <section class="min-h-screen py-16 px-4 md:px-8 lg:px-12">
+            <!-- Main container with flex column on mobile, row on desktop -->
+            <div class="max-w-7xl mx-auto">
+                <!-- Header + Slider container -->
+                <div class="flex flex-col lg:flex-row gap-4 lg:gap-8 items-start">
+
+                    <!-- Left Content Section - Redesigned -->
+                    <div class="lg:w-[30%] w-full text-white sticky lg:top-24">
+                        <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 shadow-2xl">
+                            <!-- Section tag -->
+                            <div
+                                class="inline-flex items-center gap-2 bg-amber-400/20 text-amber-400 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                                <i class="ri-flashlight-fill"></i>
+                                <span>HOT OFF-PLAN DEALS</span>
+                            </div>
+
+                            <!-- Heading -->
+                            <h1 class="text-2xl md:text-3xl font-bold leading-tight mb-6">
+                                Off-Plan
+                                <span class="text-amber-400 block mt-2">Properties</span>
+                            </h1>
+
+                            <!-- Description with improved typography -->
+                            <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                                Find the UAE's most promising off-plan projects with a team that understands your goals.
+                                From smart payment plans to early investment advantages, we connect you to opportunities
+                                that deliver real value.
+                            </p>
+
+
+                            <!-- CTA Button -->
+                            <button
+                                class="w-full bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group">
+                                <span>View All Properties</span>
+                                <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+
+                            <!-- Stats -->
+                            <div class="mt-6 flex justify-between text-sm text-gray-400 border-t border-white/10 pt-6">
+                                <span><span class="text-white font-bold">150+</span> Projects</span>
+                                <span><span class="text-white font-bold">25+</span> Developers</span>
+                                <span><span class="text-white font-bold">12</span> Locations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Slider Section - Redesigned for better fit -->
+                    <div class="lg:w-[70%] w-full">
+                        <div class="swiper flex pro overflow-hidden px-2">
+                            <div class="swiper-wrapper">
+                                <!-- Card 1 - Updated with better image quality -->
+                                <div class="swiper-slide">
+                                    <div
+                                        class="property-card group relative rounded-3xl overflow-hidden shadow-2xl cursor-pointer h-full">
+                                        <!-- Image with overlay -->
+                                        <div class="relative h-[550px] w-full overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop"
+                                                class="h-full w-full object-cover group-hover:scale-110 transition duration-700"
+                                                alt="Damac Islands">
+                                            <!-- Gradient overlay -->
+                                            <div class="absolute inset-0 card-overlay"></div>
+                                        </div>
+
+                                        <!-- Card Content - Redesigned -->
+                                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                                            <div
+                                                class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transform transition-all duration-300 group-hover:translate-y-[-8px]">
+                                                <div class="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <h3 class="text-xl font-bold text-white">Damac Islands 2</h3>
+                                                        <p class="text-gray-300 text-sm flex items-center gap-1 mt-1">
+                                                            <i class="ri-map-pin-line text-amber-400"></i> Damac Islands
+                                                            Phase 2
+                                                        </p>
+                                                    </div>
+                                                    <span
+                                                        class="bg-amber-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">HOT
+                                                        DEAL</span>
+                                                </div>
+
+                                                <!-- Property features -->
+                                                <div class="flex gap-3 text-xs text-gray-300 mb-3">
+                                                    <span class="flex items-center gap-1"><i class="ri-bed-line"></i>
+                                                        3-4
+                                                        BR</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-building-line"></i>
+                                                        2,500 sqft</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-calendar-line"></i>
+                                                        Q4 2026</span>
+                                                </div>
+
+                                                <div class="flex justify-between items-center">
+                                                    <div>
+                                                        <p class="text-gray-400 text-xs">Starting from</p>
+                                                        <p class="text-2xl font-bold text-white">AED 2.75M</p>
+                                                    </div>
+                                                    <button
+                                                        class="bg-amber-400 hover:bg-amber-500 text-gray-900 w-12 h-12 rounded-full transition shadow-lg flex items-center justify-center">
+                                                        <i class="ri-arrow-right-line text-xl"></i>
+                                                    </button>
+                                                </div>
+
+                                                <!-- Payment plan badge -->
+                                                <div
+                                                    class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs px-3 py-1 rounded-full shadow-lg">
+                                                    60/40 Plan
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 2 -->
+                                <div class="swiper-slide">
+                                    <div
+                                        class="property-card group relative rounded-3xl overflow-hidden shadow-2xl cursor-pointer h-full">
+                                        <div class="relative h-[550px] w-full overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=2670&auto=format&fit=crop"
+                                                class="h-full w-full object-cover group-hover:scale-110 transition duration-700"
+                                                alt="Soto Grande">
+                                            <div class="absolute inset-0 card-overlay"></div>
+                                        </div>
+
+                                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                                            <div
+                                                class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transform transition-all duration-300 group-hover:translate-y-[-8px]">
+                                                <div class="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <h3 class="text-xl font-bold text-white">Soto Grande</h3>
+                                                        <p class="text-gray-300 text-sm flex items-center gap-1 mt-1">
+                                                            <i class="ri-map-pin-line text-amber-400"></i> Al Jazeera Al
+                                                            Hamra
+                                                        </p>
+                                                    </div>
+                                                    <span
+                                                        class="bg-emerald-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">BEACHFRONT</span>
+                                                </div>
+
+                                                <div class="flex gap-3 text-xs text-gray-300 mb-3">
+                                                    <span class="flex items-center gap-1"><i class="ri-bed-line"></i>
+                                                        1-2
+                                                        BR</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-building-line"></i>
+                                                        1,200 sqft</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-calendar-line"></i>
+                                                        Q2 2025</span>
+                                                </div>
+
+                                                <div class="flex justify-between items-center">
+                                                    <div>
+                                                        <p class="text-gray-400 text-xs">Starting from</p>
+                                                        <p class="text-2xl font-bold text-white">AED 1.1M</p>
+                                                    </div>
+                                                    <button
+                                                        class="bg-amber-400 hover:bg-amber-500 text-gray-900 w-12 h-12 rounded-full transition shadow-lg flex items-center justify-center">
+                                                        <i class="ri-arrow-right-line text-xl"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div
+                                                    class="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs px-3 py-1 rounded-full shadow-lg">
+                                                    50/50 Plan
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 3 -->
+                                <div class="swiper-slide">
+                                    <div
+                                        class="property-card group relative rounded-3xl overflow-hidden shadow-2xl cursor-pointer h-full">
+                                        <div class="relative h-[550px] w-full overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop"
+                                                class="h-full w-full object-cover group-hover:scale-110 transition duration-700"
+                                                alt="Mercedes-Benz Places">
+                                            <div class="absolute inset-0 card-overlay"></div>
+                                        </div>
+
+                                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                                            <div
+                                                class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transform transition-all duration-300 group-hover:translate-y-[-8px]">
+                                                <div class="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <h3 class="text-xl font-bold text-white">Mercedes-Benz Places
+                                                        </h3>
+                                                        <p class="text-gray-300 text-sm flex items-center gap-1 mt-1">
+                                                            <i class="ri-map-pin-line text-amber-400"></i> Meydan -
+                                                            Dubai
+                                                        </p>
+                                                    </div>
+                                                    <span
+                                                        class="bg-purple-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">PREMIUM</span>
+                                                </div>
+
+                                                <div class="flex gap-3 text-xs text-gray-300 mb-3">
+                                                    <span class="flex items-center gap-1"><i class="ri-bed-line"></i>
+                                                        2-3
+                                                        BR</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-building-line"></i>
+                                                        1,800 sqft</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-calendar-line"></i>
+                                                        Q1 2027</span>
+                                                </div>
+
+                                                <div class="flex justify-between items-center">
+                                                    <div>
+                                                        <p class="text-gray-400 text-xs">Starting from</p>
+                                                        <p class="text-2xl font-bold text-white">AED 1.3M</p>
+                                                    </div>
+                                                    <button
+                                                        class="bg-amber-400 hover:bg-amber-500 text-gray-900 w-12 h-12 rounded-full transition shadow-lg flex items-center justify-center">
+                                                        <i class="ri-arrow-right-line text-xl"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div
+                                                    class="absolute -top-2 -right-2 bg-purple-500 text-white text-xs px-3 py-1 rounded-full shadow-lg">
+                                                    Branded
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 4 -->
+                                <div class="swiper-slide">
+                                    <div
+                                        class="property-card group relative rounded-3xl overflow-hidden shadow-2xl cursor-pointer h-full">
+                                        <div class="relative h-[550px] w-full overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2670&auto=format&fit=crop"
+                                                class="h-full w-full object-cover group-hover:scale-110 transition duration-700"
+                                                alt="Palm Jumeirah">
+                                            <div class="absolute inset-0 card-overlay"></div>
+                                        </div>
+
+                                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                                            <div
+                                                class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 transform transition-all duration-300 group-hover:translate-y-[-8px]">
+                                                <div class="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <h3 class="text-xl font-bold text-white">Palm Jumeirah Villa
+                                                        </h3>
+                                                        <p class="text-gray-300 text-sm flex items-center gap-1 mt-1">
+                                                            <i class="ri-map-pin-line text-amber-400"></i> Palm Jumeirah
+                                                            -
+                                                            Dubai
+                                                        </p>
+                                                    </div>
+                                                    <span
+                                                        class="bg-amber-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">ICONIC</span>
+                                                </div>
+
+                                                <div class="flex gap-3 text-xs text-gray-300 mb-3">
+                                                    <span class="flex items-center gap-1"><i class="ri-bed-line"></i>
+                                                        5-6
+                                                        BR</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-building-line"></i>
+                                                        5,500 sqft</span>
+                                                    <span class="flex items-center gap-1"><i
+                                                            class="ri-calendar-line"></i>
+                                                        Ready</span>
+                                                </div>
+
+                                                <div class="flex justify-between items-center">
+                                                    <div>
+                                                        <p class="text-gray-400 text-xs">Starting from</p>
+                                                        <p class="text-2xl font-bold text-white">AED 8.5M</p>
+                                                    </div>
+                                                    <button
+                                                        class="bg-amber-400 hover:bg-amber-500 text-gray-900 w-12 h-12 rounded-full transition shadow-lg flex items-center justify-center">
+                                                        <i class="ri-arrow-right-line text-xl"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div
+                                                    class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs px-3 py-1 rounded-full shadow-lg">
+                                                    Premium
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Residential Properties -->
+    <section class="bg-gradient-to-b from-[#e9eff2] to-[#dae5e9] py-16 md:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+            <!-- Section Header with View All link -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-[#2d3a40] font-semibold text-sm uppercase tracking-wider mb-3 block">Find Your
+                        Dream Home</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800">
+                        Residential <span class="text-[#2d3a40]">Properties</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-[#2d3a40] mt-4"></div>
+                </div>
+
+                <!-- View All Button - Desktop -->
+                <button
+                    class="hidden md:flex items-center gap-2 bg-white/80 backdrop-blur-sm text-[#2d3a40] px-6 py-3 rounded-xl hover:bg-[#2d3a40] hover:text-white transition-all duration-300 shadow-lg group">
+                    <span class="font-medium">View All Properties</span>
+                    <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+
+            <!-- Main Grid: Left Content + Property Cards -->
+            <div class="grid lg:grid-cols-3 gap-8 lg:gap-10 items-start">
+
+                <!-- Left Content - Enhanced -->
+                <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-shadow">
+                    <div
+                        class="inline-flex items-center gap-2 bg-[#2d3a40]/10 text-[#2d3a40] px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                        <i class="ri-home-4-line"></i>
+                        <span>YOUR PERFECT MATCH</span>
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-gray-800 mb-4 leading-tight">
+                        House hunting made
+                        <span class="text-[#2d3a40] relative">simple
+                            <span class="absolute bottom-1 left-0 w-full h-2 bg-[#2d3a40]/20 -z-10"></span>
+                        </span>
+                    </h3>
+
+                    <p class="text-gray-600 leading-relaxed mb-6 text-lg">
+                        House hunting can be exhausting, but it doesn't have to be. We make the process simple, fast, &
+                        personal. With the right mix of technology, market expertise, & a human touch, we match you to
+                        homes that fit you.
+                    </p>
+
+                    <p class="text-gray-600 leading-relaxed mb-8 border-l-4 border-[#2d3a40] pl-4 italic">
+                        "Whether you're buying, selling, or leasing, we're here to make your experience unique."
+                    </p>
+
+                    <!-- Key Features -->
+                    <div class="grid grid-cols-2 gap-3 mb-8">
+                        <div class="flex items-center gap-2 text-sm">
+                            <i class="ri-checkbox-circle-fill text-[#2d3a40]"></i>
+                            <span>Smart Matching</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <i class="ri-checkbox-circle-fill text-[#2d3a40]"></i>
+                            <span>Virtual Tours</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <i class="ri-checkbox-circle-fill text-[#2d3a40]"></i>
+                            <span>Expert Advice</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <i class="ri-checkbox-circle-fill text-[#2d3a40]"></i>
+                            <span>Best Deals</span>
+                        </div>
+                    </div>
+
+                    <!-- Mobile View All Button -->
+                    <button
+                        class="w-full md:hidden bg-[#2d3a40] text-white px-6 py-3 rounded-xl hover:bg-black transition-all duration-300 flex items-center justify-center gap-2 group">
+                        <span>View All Properties</span>
+                        <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+
+                <!-- Property Cards Grid - Now properly responsive -->
+                <div class="lg:col-span-2 grid md:grid-cols-2 gap-6">
+
+                    <!-- Property Card 1 - Enhanced -->
+                    <div
+                        class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <!-- Image Container -->
+                        <div class="relative overflow-hidden h-64">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                alt="Luxury Apartment">
+
+                            <!-- Overlay Badges -->
+                            <div class="absolute top-4 left-4 flex gap-2">
+                                <span
+                                    class="bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                    <i class="ri-star-fill text-amber-400"></i> FEATURED
+                                </span>
+                                <span
+                                    class="bg-[#2d3a40]/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                    FOR RENT
+                                </span>
+                            </div>
+
+                            <!-- Price Tag -->
+                            <div
+                                class="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-xl shadow-lg">
+                                <span class="text-xl font-bold">AED 500k</span>
+                                <span class="text-xs opacity-80">/year</span>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-5">
+                            <!-- Title & Location -->
+                            <div class="mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 mb-1 flex items-center gap-2">
+                                    Beach Vista 2
+                                    <i class="ri-verified-badge-fill text-[#2d3a40] text-sm"></i>
+                                </h3>
+                                <p class="text-gray-500 text-sm flex items-center gap-1">
+                                    <i class="ri-map-pin-line text-[#2d3a40]"></i>
+                                    Emaar Beachfront, Dubai
+                                </p>
+                            </div>
+
+                            <!-- Description -->
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                Full Palm View | Luxury Furnished with premium finishes and stunning sea views
+                            </p>
+
+                            <!-- Features Grid -->
+                            <div class="grid grid-cols-3 gap-2 py-3 border-t border-b border-gray-100">
+                                <div class="text-center">
+                                    <i class="ri-hotel-bed-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">3 Beds</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-shower-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">4 Baths</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-expand-diagonal-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">1,925 sqft</span>
+                                </div>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 bg-[#2d3a40] rounded-full flex items-center justify-center">
+                                        <i class="ri-user-line text-white text-xs"></i>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Listed by Emaar</span>
+                                </div>
+                                <button
+                                    class="text-[#2d3a40] hover:text-black transition flex items-center gap-1 text-sm font-medium">
+                                    Details <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property Card 2 - Enhanced -->
+                    <div
+                        class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <!-- Image Container -->
+                        <div class="relative overflow-hidden h-64">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                alt="Palm Jumeirah Apartment">
+
+                            <!-- Overlay Badges -->
+                            <div class="absolute top-4 left-4 flex gap-2">
+                                <span
+                                    class="bg-amber-400/90 backdrop-blur-sm text-gray-900 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                    <i class="ri-crown-fill"></i> PREMIUM
+                                </span>
+                                <span
+                                    class="bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                    READY
+                                </span>
+                            </div>
+
+                            <!-- Price Tag -->
+                            <div
+                                class="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-xl shadow-lg">
+                                <span class="text-xl font-bold">AED 395k</span>
+                                <span class="text-xs opacity-80">/year</span>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-5">
+                            <!-- Title & Location -->
+                            <div class="mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 mb-1 flex items-center gap-2">
+                                    La Vie
+                                    <i class="ri-verified-badge-fill text-[#2d3a40] text-sm"></i>
+                                </h3>
+                                <p class="text-gray-500 text-sm flex items-center gap-1">
+                                    <i class="ri-map-pin-line text-[#2d3a40]"></i>
+                                    Jumeirah Beach Residence, Dubai
+                                </p>
+                            </div>
+
+                            <!-- Description -->
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                Palm Jumeirah Sea View | Vacant | Fully Furnished luxury apartment
+                            </p>
+
+                            <!-- Features Grid -->
+                            <div class="grid grid-cols-3 gap-2 py-3 border-t border-b border-gray-100">
+                                <div class="text-center">
+                                    <i class="ri-hotel-bed-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">2 Beds</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-shower-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">2 Baths</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-expand-diagonal-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">1,411 sqft</span>
+                                </div>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 bg-[#2d3a40] rounded-full flex items-center justify-center">
+                                        <i class="ri-user-line text-white text-xs"></i>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Listed by Nakheel</span>
+                                </div>
+                                <button
+                                    class="text-[#2d3a40] hover:text-black transition flex items-center gap-1 text-sm font-medium">
+                                    Details <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property Card 3 - New Addition to show grid properly -->
+                    <div
+                        class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 md:col-span-2 lg:col-span-1">
+                        <!-- Image Container -->
+                        <div class="relative overflow-hidden h-64">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                alt="Modern Villa">
+
+                            <!-- Overlay Badges -->
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="bg-blue-400/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                    NEW LISTING
+                                </span>
+                            </div>
+
+                            <!-- Price Tag -->
+                            <div
+                                class="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-xl shadow-lg">
+                                <span class="text-xl font-bold">AED 750k</span>
+                                <span class="text-xs opacity-80">/year</span>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-5">
+                            <div class="mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 mb-1">The Palm Tower</h3>
+                                <p class="text-gray-500 text-sm flex items-center gap-1">
+                                    <i class="ri-map-pin-line text-[#2d3a40]"></i>
+                                    Palm Jumeirah, Dubai
+                                </p>
+                            </div>
+
+                            <p class="text-gray-600 text-sm mb-4">
+                                Stunning sea view | High floor | Balcony with direct beach access
+                            </p>
+
+                            <div class="grid grid-cols-3 gap-2 py-3 border-t border-b border-gray-100">
+                                <div class="text-center">
+                                    <i class="ri-hotel-bed-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">3 Beds</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-shower-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">3 Baths</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-expand-diagonal-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">2,200 sqft</span>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Available
+                                        Now</span>
+                                </div>
+                                <button class="text-[#2d3a40] hover:text-black transition text-sm font-medium">
+                                    View Details →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property Card 4 - New Addition -->
+                    <div
+                        class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                        <!-- Image Container -->
+                        <div class="relative overflow-hidden h-64">
+                            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2670&auto=format&fit=crop"
+                                class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                                alt="Downtown Apartment">
+
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="bg-purple-400/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                    -15% OFF
+                                </span>
+                            </div>
+
+                            <div
+                                class="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-xl shadow-lg">
+                                <span class="text-xl font-bold">AED 650k</span>
+                                <span class="text-xs opacity-80">/year</span>
+                            </div>
+                        </div>
+
+                        <div class="p-5">
+                            <div class="mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 mb-1">Burj Royale</h3>
+                                <p class="text-gray-500 text-sm flex items-center gap-1">
+                                    <i class="ri-map-pin-line text-[#2d3a40]"></i>
+                                    Downtown Dubai
+                                </p>
+                            </div>
+
+                            <p class="text-gray-600 text-sm mb-4">
+                                Burj Khalifa view | Fully furnished | Smart home features
+                            </p>
+
+                            <div class="grid grid-cols-3 gap-2 py-3 border-t border-b border-gray-100">
+                                <div class="text-center">
+                                    <i class="ri-hotel-bed-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">2 Beds</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-shower-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">3 Baths</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="ri-expand-diagonal-line text-[#2d3a40] text-lg block mb-1"></i>
+                                    <span class="text-xs text-gray-600">1,850 sqft</span>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center gap-1">
+                                    <i class="ri-flashlight-fill text-amber-400 text-xs"></i>
+                                    <span class="text-xs text-gray-500">Popular Choice</span>
+                                </div>
+                                <button class="text-[#2d3a40] hover:text-black transition text-sm font-medium">
+                                    View Details →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom CTA for mobile -->
+            <div class="mt-12 text-center lg:hidden">
+                <button
+                    class="inline-flex items-center gap-2 bg-[#2d3a40] text-white px-8 py-4 rounded-xl hover:bg-black transition-all duration-300 shadow-lg">
+                    <span class="font-medium">Browse All Residential Properties</span>
+                    <i class="ri-arrow-right-line"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- service pages  -->
+
+    <section class="bg-gradient-to-b from-[#e9eff2] to-[#dae1e5] py-20 md:py-28 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-[#2f3d42] rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-[#3a474d] rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+
+            <!-- Heading Section with better hierarchy -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16">
+                <div class="max-w-2xl">
+                    <!-- Section Badge -->
+                    <span
+                        class="inline-flex items-center gap-2 bg-[#2f3d42]/10 text-[#2f3d42] px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                        <i class="ri-service-line"></i>
+                        WHAT WE OFFER
+                    </span>
+
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4">
+                        Our <span class="text-[#2f3d42] relative">Services
+                            <span class="absolute bottom-2 left-0 w-full h-3 bg-[#2f3d42]/20 -z-10"></span>
+                        </span>
+                    </h2>
+
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        We're here to help you through every part of your real estate journey,
+                        whether it's finding your perfect home or managing your property.
+                    </p>
+                </div>
+
+                <!-- View All Button with animation -->
+                <button
+                    class="group bg-[#2f3d42] hover:bg-black text-white px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-3 text-lg font-medium self-start lg:self-auto">
+                    <span>Explore All Services</span>
+                    <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+
+            <!-- Services Grid - Now responsive with better layout -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+                <!-- Service 1 - Holiday Homes (Redesigned) -->
+                <div
+                    class="service-card group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl">
+                    <!-- Image Container with Gradient Overlay -->
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Holiday Homes">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#2f3d42] via-transparent to-transparent opacity-80">
+                        </div>
+
+                        <!-- Icon Badge -->
+                        <div
+                            class="absolute top-5 left-5 bg-white/90 backdrop-blur-sm text-[#2f3d42] p-3 rounded-2xl shadow-lg">
+                            <i class="ri-umbrella-beach-line text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                            Holiday Homes
+                            <i class="ri-verified-badge-fill text-[#2f3d42] text-sm"></i>
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Premium vacation rentals in prime locations. Fully furnished, managed, and ready for your
+                            stay.
+                        </p>
+
+                        <!-- Features List -->
+                        <div class="space-y-2 mb-5">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Fully furnished apartments & villas</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>24/7 concierge service</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Airport transfers included</span>
+                            </div>
+                        </div>
+
+                        <!-- Learn More Link -->
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group/link">
+                            Learn more
+                            <i class="ri-arrow-right-line group-hover/link:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service 2 - Concierge & Relocation (Redesigned) -->
+                <div
+                    class="service-card group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Concierge Services">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#2f3d42] via-transparent to-transparent opacity-80">
+                        </div>
+
+                        <div
+                            class="absolute top-5 left-5 bg-white/90 backdrop-blur-sm text-[#2f3d42] p-3 rounded-2xl shadow-lg">
+                            <i class="ri-customer-service-2-line text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                            Concierge & Relocation
+                            <i class="ri-verified-badge-fill text-[#2f3d42] text-sm"></i>
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            End-to-end relocation support and personalized concierge services for a seamless move.
+                        </p>
+
+                        <div class="space-y-2 mb-5">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>School & visa assistance</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Home setup services</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Personal shopping</span>
+                            </div>
+                        </div>
+
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group/link">
+                            Learn more
+                            <i class="ri-arrow-right-line group-hover/link:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service 3 - PRO Services (Redesigned) -->
+                <div
+                    class="service-card group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="PRO Services">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#2f3d42] via-transparent to-transparent opacity-80">
+                        </div>
+
+                        <div
+                            class="absolute top-5 left-5 bg-white/90 backdrop-blur-sm text-[#2f3d42] p-3 rounded-2xl shadow-lg">
+                            <i class="ri-file-copy-line text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                            PRO Services
+                            <i class="ri-verified-badge-fill text-[#2f3d42] text-sm"></i>
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            Complete government and documentation services for individuals and businesses.
+                        </p>
+
+                        <div class="space-y-2 mb-5">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Visa processing & renewal</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Trade license & company setup</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Document attestation</span>
+                            </div>
+                        </div>
+
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group/link">
+                            Learn more
+                            <i class="ri-arrow-right-line group-hover/link:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service 4 - Property Management (New) -->
+                <div
+                    class="service-card group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl md:col-span-2 lg:col-span-1">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Property Management">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#2f3d42] via-transparent to-transparent opacity-80">
+                        </div>
+
+                        <div
+                            class="absolute top-5 left-5 bg-white/90 backdrop-blur-sm text-[#2f3d42] p-3 rounded-2xl shadow-lg">
+                            <i class="ri-building-2-line text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Property Management</h3>
+                        <p class="text-gray-600 mb-4">
+                            Full-service property management for landlords and investors.
+                        </p>
+
+                        <div class="space-y-2 mb-5">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Tenant screening & placement</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Maintenance & repairs</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <i class="ri-checkbox-circle-fill text-[#2f3d42]"></i>
+                                <span>Rent collection</span>
+                            </div>
+                        </div>
+
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition">
+                            Learn more <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Stats Section -->
+
+
+
+        </div>
+    </section>
+    <!-- Blog section  -->
+
+    <section class="bg-gradient-to-b from-gray-50 to-gray-100 py-20 md:py-28 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 right-20 w-64 h-64 bg-amber-200 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 left-20 w-80 h-80 bg-blue-200 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+
+            <!-- Header Section - Redesigned -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+                <div class="max-w-2xl">
+                    <!-- Section Badge -->
+                    <div
+                        class="inline-flex items-center gap-2 bg-[#2f3d42]/10 text-[#2f3d42] px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                        <i class="ri-article-line"></i>
+                        <span>LATEST UPDATES</span>
+                    </div>
+
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                        Our <span class="text-[#2f3d42] relative">Blogs
+                            <span class="absolute bottom-2 left-0 w-full h-3 bg-[#2f3d42]/20 -z-10"></span>
+                        </span>
+                    </h2>
+
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        Stay up-to-date with the latest news, trends, & insights from NOVVI Properties
+                    </p>
+                </div>
+
+                <!-- View All Button with animation -->
+                <button
+                    class="group bg-[#2f3d42] hover:bg-black text-white px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-3 text-lg font-medium">
+                    <span>View All Articles</span>
+                    <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+
+            <!-- Blog Cards Grid - Enhanced -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+
+                <!-- Card 1 - Enhanced -->
+                <div class="blog-card group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <!-- Image Container with Overlay -->
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Dubai Guide">
+
+                        <!-- Category Badge -->
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="bg-white/90 backdrop-blur-sm text-[#2f3d42] px-4 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                <i class="ri-file-text-line"></i>
+                                GUIDE
+                            </span>
+                        </div>
+
+                        <!-- Reading Time -->
+                        <div
+                            class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs flex items-center gap-1">
+                            <i class="ri-time-line"></i>
+                            5 min read
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-7">
+                        <!-- Meta Info -->
+                        <div class="flex items-center gap-3 text-sm text-gray-500 mb-3">
+                            <span class="flex items-center gap-1">
+                                <i class="ri-user-line text-[#2f3d42]"></i>
+                                NOVVI Properties
+                            </span>
+                            <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                            <span class="flex items-center gap-1">
+                                <i class="ri-calendar-line text-[#2f3d42]"></i>
+                                Feb 10, 2026
+                            </span>
+                        </div>
+
+                        <!-- Title -->
+                        <h3
+                            class="text-xl font-bold text-gray-900 mb-3 leading-tight hover:text-[#2f3d42] transition-colors">
+                            <a href="#">
+                                Ejari Registration for Landlords: The Complete Dubai Guide (2026)
+                            </a>
+                        </h3>
+
+                        <!-- Excerpt -->
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            Everything you need to know about Ejari registration in Dubai. Step-by-step guide for
+                            landlords to register tenancy contracts.
+                        </p>
+
+                        <!-- Tags -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Ejari</span>
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Dubai</span>
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Rental</span>
+                        </div>
+
+                        <!-- Read More Link -->
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group/link">
+                            Read Full Article
+                            <i class="ri-arrow-right-line group-hover/link:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2 - Enhanced -->
+                <div class="blog-card group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Rental Disputes">
+
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="bg-white/90 backdrop-blur-sm text-[#2f3d42] px-4 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                <i class="ri-gavel-line"></i>
+                                LEGAL
+                            </span>
+                        </div>
+
+                        <div
+                            class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs flex items-center gap-1">
+                            <i class="ri-time-line"></i>
+                            7 min read
+                        </div>
+                    </div>
+
+                    <div class="p-7">
+                        <div class="flex items-center gap-3 text-sm text-gray-500 mb-3">
+                            <span class="flex items-center gap-1">
+                                <i class="ri-user-line text-[#2f3d42]"></i>
+                                NOVVI Properties
+                            </span>
+                            <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                            <span class="flex items-center gap-1">
+                                <i class="ri-calendar-line text-[#2f3d42]"></i>
+                                Feb 10, 2026
+                            </span>
+                        </div>
+
+                        <h3
+                            class="text-xl font-bold text-gray-900 mb-3 leading-tight hover:text-[#2f3d42] transition-colors">
+                            <a href="#">
+                                Rental Disputes Dubai: Essential Steps for Landlords & Tenants
+                            </a>
+                        </h3>
+
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            Learn how to handle rental disputes in Dubai. Essential steps, legal procedures, and RDC
+                            guidelines for landlords and tenants.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Disputes</span>
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Legal</span>
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">RDC</span>
+                        </div>
+
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group/link">
+                            Read Full Article
+                            <i class="ri-arrow-right-line group-hover/link:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3 - Enhanced -->
+                <div class="blog-card group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Capital Appreciation">
+
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="bg-white/90 backdrop-blur-sm text-[#2f3d42] px-4 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                <i class="ri-line-chart-line"></i>
+                                INVEST
+                            </span>
+                        </div>
+
+                        <div
+                            class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs flex items-center gap-1">
+                            <i class="ri-time-line"></i>
+                            6 min read
+                        </div>
+                    </div>
+
+                    <div class="p-7">
+                        <div class="flex items-center gap-3 text-sm text-gray-500 mb-3">
+                            <span class="flex items-center gap-1">
+                                <i class="ri-user-line text-[#2f3d42]"></i>
+                                NOVVI Properties
+                            </span>
+                            <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                            <span class="flex items-center gap-1">
+                                <i class="ri-calendar-line text-[#2f3d42]"></i>
+                                Jan 30, 2026
+                            </span>
+                        </div>
+
+                        <h3
+                            class="text-xl font-bold text-gray-900 mb-3 leading-tight hover:text-[#2f3d42] transition-colors">
+                            <a href="#">
+                                Capital Appreciation in Dubai (2026 Forecast): Where Is the Value Left?
+                            </a>
+                        </h3>
+
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            Expert analysis on Dubai's property market trends, investment hotspots, and capital
+                            appreciation forecast for 2026.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Investment</span>
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Forecast</span>
+                            <span
+                                class="category-tag text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full cursor-pointer">Market</span>
+                        </div>
+
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group/link">
+                            Read Full Article
+                            <i class="ri-arrow-right-line group-hover/link:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation & Pagination - Redesigned -->
+            <div class="flex flex-col sm:flex-row justify-between items-center mt-16 gap-4">
+                <!-- Previous Button -->
+                <button
+                    class="group flex items-center gap-3 px-6 py-3 bg-white rounded-xl shadow-md hover:shadow-lg transition-all text-gray-700 hover:text-[#2f3d42] font-medium">
+                    <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform"></i>
+                    <span>Previous Articles</span>
+                </button>
+
+                <!-- Pagination -->
+                <div class="flex items-center gap-3">
+                    <button class="w-10 h-10 rounded-xl bg-[#2f3d42] text-white font-medium shadow-md">1</button>
+                    <button
+                        class="w-10 h-10 rounded-xl bg-white hover:bg-gray-100 text-gray-700 font-medium shadow-md transition">2</button>
+                    <button
+                        class="w-10 h-10 rounded-xl bg-white hover:bg-gray-100 text-gray-700 font-medium shadow-md transition">3</button>
+                    <span class="text-gray-400">...</span>
+                    <button
+                        class="w-10 h-10 rounded-xl bg-white hover:bg-gray-100 text-gray-700 font-medium shadow-md transition">8</button>
+                </div>
+
+                <!-- Next Button -->
+                <button
+                    class="group flex items-center gap-3 px-6 py-3 bg-white rounded-xl shadow-md hover:shadow-lg transition-all text-gray-700 hover:text-[#2f3d42] font-medium">
+                    <span>Next Articles</span>
+                    <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="bg-gradient-to-b from-[#f5efe6] to-[#e8dfd3] py-16 md:py-20 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-20 left-20 w-64 h-64 bg-amber-700 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-20 w-80 h-80 bg-stone-700 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+
+            <!-- Header with Icon -->
+            <div class="flex items-center gap-3 mb-10">
+                <div class="bg-[#2f3d42] p-3 rounded-xl">
+                    <i class="ri-home-4-line text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Property Categories</h2>
+                    <p class="text-gray-600 mt-1">Browse properties by type and purpose</p>
+                </div>
+            </div>
+
+            <!-- Main Categories Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <!-- Left Column - For Sale -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-emerald-100 p-3 rounded-xl">
+                            <i class="ri-money-dollar-circle-line text-emerald-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">For Sale</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Apartments -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-building-line"></i>
+                                Apartments for Sale
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">Studio Apartments for Sale in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">1 Bedroom Apartments for Sale in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">2 Bedroom Apartments for Sale in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">3 Bedroom Apartments for Sale in Dubai</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Townhouses -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-home-5-line"></i>
+                                Townhouses for Sale
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">3 Bedrooms Townhouses for Sale in
+                                        Dubai</a></li>
+                                <li><a href="#" class="category-link text-sm">4 Bedrooms Townhouses for Sale in
+                                        Dubai</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Villas -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-villa-line"></i>
+                                Villas for Sale
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">3 Bedrooms Villa For Sale in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">4 Bedrooms Villa For Sale in Dubai</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- View All Link -->
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group">
+                            View All Properties for Sale
+                            <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Middle Column - For Rent -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-blue-100 p-3 rounded-xl">
+                            <i class="ri-key-line text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">For Rent</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Apartments -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-building-line"></i>
+                                Apartments for Rent
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">Studio Apartments for Rent in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">1 Bedroom Apartments for Rent in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">2 Bedrooms Apartments for Rent in
+                                        Dubai</a></li>
+                                <li><a href="#" class="category-link text-sm">3 Bedrooms Apartments for Rent in
+                                        Dubai</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Townhouses -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-home-5-line"></i>
+                                Townhouses for Rent
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">3 Bedrooms Townhouses for Rent in
+                                        Dubai</a></li>
+                                <li><a href="#" class="category-link text-sm">4 Bedrooms Townhouses for Rent in
+                                        Dubai</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Villas -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-villa-line"></i>
+                                Villas for Rent
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">3 Bedrooms Villas for Rent in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">4 Bedrooms Villas for Rent in Dubai</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Penthouses -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-crown-line"></i>
+                                Penthouses for Rent
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">2 Bedrooms Penthouse for Rent in Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">4 Bedrooms Penthouse for Rent in Dubai</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- View All Link -->
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group">
+                            View All Properties for Rent
+                            <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column - Off Plan -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-purple-100 p-3 rounded-xl">
+                            <i class="ri-compass-discover-line text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Off-Plan</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- By Location -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-map-pin-line"></i>
+                                By Location
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">Off-Plan Projects in Dubai</a></li>
+                                <li><a href="#" class="category-link text-sm">Off-Plan Projects in Dubai Islands</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">Off-Plan Projects in Dubai South</a></li>
+                                <li><a href="#" class="category-link text-sm">Off-Plan Projects in Downtown Dubai</a>
+                                </li>
+                                <li><a href="#" class="category-link text-sm">Off-Plan Projects in Palm Jumeirah</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- By Type -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-stack-line"></i>
+                                By Property Type
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">Off-Plan Apartments in Dubai</a></li>
+                                <li><a href="#" class="category-link text-sm">Off-Plan Villas in Dubai</a></li>
+                                <li><a href="#" class="category-link text-sm">Off-Plan Townhouses in Dubai</a></li>
+                                <li><a href="#" class="category-link text-sm">Off-Plan Penthouses in Dubai</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Popular Developers -->
+                        <div>
+                            <h4 class="font-semibold text-[#2f3d42] mb-3 flex items-center gap-2">
+                                <i class="ri-building-2-line"></i>
+                                Popular Developers
+                            </h4>
+                            <ul class="space-y-2 text-gray-600 pl-6">
+                                <li><a href="#" class="category-link text-sm">Emaar Properties</a></li>
+                                <li><a href="#" class="category-link text-sm">Damac Properties</a></li>
+                                <li><a href="#" class="category-link text-sm">Nakheel Properties</a></li>
+                                <li><a href="#" class="category-link text-sm">Azizi Developments</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- View All Link -->
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <a href="#"
+                            class="inline-flex items-center gap-2 text-[#2f3d42] font-semibold hover:text-black transition group">
+                            Explore All Off-Plan Projects
+                            <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-[#2f3d42]">15,000+</div>
+                    <div class="text-xs text-gray-600">Properties Listed</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-[#2f3d42]">500+</div>
+                    <div class="text-xs text-gray-600">New Projects</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-[#2f3d42]">50+</div>
+                    <div class="text-xs text-gray-600">Communities</div>
+                </div>
+                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-[#2f3d42]">100+</div>
+                    <div class="text-xs text-gray-600">Developers</div>
+                </div>
+            </div>
+
+            <!-- Popular Locations -->
+            <div class="mt-12 text-center">
+                <h4 class="text-lg font-semibold text-gray-700 mb-4">Popular Locations</h4>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <a href="#"
+                        class="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm hover:bg-[#2f3d42] hover:text-white transition shadow-sm">Downtown
+                        Dubai</a>
+                    <a href="#"
+                        class="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm hover:bg-[#2f3d42] hover:text-white transition shadow-sm">Dubai
+                        Marina</a>
+                    <a href="#"
+                        class="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm hover:bg-[#2f3d42] hover:text-white transition shadow-sm">Palm
+                        Jumeirah</a>
+                    <a href="#"
+                        class="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm hover:bg-[#2f3d42] hover:text-white transition shadow-sm">Emirates
+                        Hills</a>
+                    <a href="#"
+                        class="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm hover:bg-[#2f3d42] hover:text-white transition shadow-sm">Dubai
+                        Hills Estate</a>
+                    <a href="#"
+                        class="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm hover:bg-[#2f3d42] hover:text-white transition shadow-sm">Jumeirah
+                        Beach Residence</a>
+                    <a href="#"
+                        class="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full text-sm hover:bg-[#2f3d42] hover:text-white transition shadow-sm">Dubai
+                        Creek</a>
+                </div>
+            </div>
+
+            <!-- Contact Bar -->
+            <div
+                class="mt-12 bg-[#2f3d42] rounded-2xl p-6 text-white flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <i class="ri-customer-service-2-line text-3xl text-amber-400"></i>
+                    <div>
+                        <h5 class="font-semibold">Need help finding the right property?</h5>
+                        <p class="text-sm text-white/80">Our experts are here to assist you 24/7</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="bg-amber-400 text-gray-900 px-6 py-3 rounded-xl font-semibold hover:bg-amber-500 transition flex items-center gap-2">
+                        <i class="ri-phone-line"></i>
+                        Call Us
+                    </a>
+                    <a href="#"
+                        class="bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-xl font-semibold hover:bg-white/30 transition flex items-center gap-2">
+                        <i class="ri-whatsapp-line"></i>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- bottom bar – subtle stats / featured (replaces empty footer) -->
+    <footer class="text-[#c0c0c0] relative overflow-hidden bg-novvi-charcoal">
+        <!-- Background image (grayscale - grey tone) -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat grayscale opacity-50"
+            style="background-image: url('https://images.unsplash.com/photo-1546412414-e1885259563a?w=1920&q=80');">
+        </div>
+        <!-- Overlay - novvi-charcoal to match website -->
+        <div class="absolute inset-0  bg-[#212829]"></div>
+        <!-- Subtle pattern overlay -->
+        <div class="absolute inset-0 opacity-[0.03]"
+            style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Left Column -->
+                <div>
+                    <a href="#" class="flex flex-col mb-4">
+                        <span class="font-serif text-2xl text-white">NOVVI</span>
+                        <span class="text-xs tracking-widest text-gray-400">PROPERTIES</span>
+                    </a>
+                    <p class="text-sm text-gray-400 mb-6 max-w-sm">Your trusted partner for finding the perfect off-plan
+                        and ready properties in Dubai. Discover premium developments and exceptional investment
+                        opportunities.</p>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-white mb-3">Subscribe To Our Newsletter</h4>
+                        <div class="flex gap-2">
+                            <input type="email" placeholder="Enter your email"
+                                class="flex-1 px-4 py-3 bg-white/10 border border-gray-600 rounded focus:border-novvi-beige focus:outline-none placeholder-gray-500">
+                            <button
+                                class="px-6 py-3 bg-amber-400 text-white font-medium rounded hover:bg-amber-400/90 transition-colors">Subscribe</button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">By subscribing you accept our <a href="#"
+                                class="text-novvi-beige hover:underline">Privacy Policy</a></p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-white mb-3">Follow Us</h4>
+                        <div class="flex gap-3">
+                            <a href="#"
+                                class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-novvi-beige transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-novvi-beige transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-novvi-beige transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-novvi-beige transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-novvi-beige transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                </svg>
+                            </a>
+                            <a href="#"
+                                class="social-icon w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-novvi-beige transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Middle Column -->
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Quick Link</h4>
+                    <ul class="space-y-2 mb-8">
+                        <li><a href="#" class="hover:text-novvi-beige transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-novvi-beige transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-novvi-beige transition-colors">Services</a></li>
+                        <li><a href="#" class="hover:text-novvi-beige transition-colors">Blogs</a></li>
+                        <li><a href="#" class="hover:text-novvi-beige transition-colors">Contact Us</a></li>
+                    </ul>
+                    <h4 class="font-semibold text-white mb-4">Contact Us</h4>
+                    <p class="text-sm mb-2">NOVVI Properties, Unit XXX, YYYY Street, P.O. Box ZZZ, Dubai Marina, Dubai,
+                        UAE.</p>
+                    <a href="mailto:hello@novviprop.com"
+                        class="block text-novvi-beige hover:underline mb-2">hello@novviprop.com</a>
+                    <a href="tel:+971XXXXXXXX" class="block hover:text-novvi-beige transition-colors">+971 XXX XXX
+                        XXXX</a>
+                </div>
+                <!-- Right Column - Form -->
+
+                <!-- Enhanced Contact Form -->
+                <div
+                    class="bg-gradient-to-br from-[#2a373d] to-[#1d2a2f] rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
+                    <!-- Header with Decoration -->
+                    <div class="relative h-20 bg-[#1f2c31] overflow-hidden">
+                        <!-- Pattern Overlay -->
+                        <div class="absolute inset-0 opacity-10">
+                            <div class="absolute -top-10 -right-10 w-40 h-40 bg-amber-400 rounded-full blur-3xl"></div>
+                            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-400 rounded-full blur-3xl"></div>
+                        </div>
+
+                        <!-- Title with Icon -->
+                        <div class="absolute bottom-0 left-0 right-0 px-8 pb-4">
+
+                            <h4 class="text-2xl font-bold text-white">Let's Connect</h4>
+
+                        </div>
+                    </div>
+
+                    <!-- Form Body -->
+                    <div class="p-8">
+                        <form class="space-y-5">
+                            <!-- Name Field with Icon -->
+                            <div class="relative">
+                                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <i class="ri-user-line"></i>
+                                </div>
+                                <input type="text" placeholder="Your full name"
+                                    class="form-input w-full pl-11 pr-4 py-3.5 rounded-xl text-white placeholder-gray-400 outline-none">
+                            </div>
+
+                            <!-- Email Field with Icon -->
+                            <div class="relative">
+                                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <i class="ri-mail-line"></i>
+                                </div>
+                                <input type="email" placeholder="Email address"
+                                    class="form-input w-full pl-11 pr-4 py-3.5 rounded-xl text-white placeholder-gray-400 outline-none">
+                            </div>
+
+                            <!-- Phone Field with Icon -->
+                            <div class="relative">
+                                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                                    <i class="ri-phone-line"></i>
+                                </div>
+                                <input type="tel" placeholder="Phone number"
+                                    class="form-input w-full pl-11 pr-4 py-3.5 rounded-xl text-white placeholder-gray-400 outline-none">
+                            </div>
+
+                            <!-- Message Field with Icon -->
+                            <div class="relative">
+                                <div class="absolute left-4 top-5 text-gray-400">
+                                    <i class="ri-file-text-line"></i>
+                                </div>
+                                <textarea placeholder="Your message" rows="4"
+                                    class="form-input w-full pl-11 pr-4 py-3.5 rounded-xl text-white placeholder-gray-400 outline-none resize-none"></textarea>
+                            </div>
+
+                            <!-- Checkbox for consent -->
+                            <div class="flex items-start gap-3 pt-2">
+                                <input type="checkbox" id="consent"
+                                    class="mt-1 w-4 h-4 accent-amber-400 bg-white/10 border-gray-600 rounded focus:ring-amber-400">
+                                <label for="consent" class="text-xs text-gray-400">
+                                    I agree to receive communications and accept the
+                                    <a href="#" class="text-amber-400 hover:text-amber-300 transition">Privacy
+                                        Policy</a>
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit"
+                                class="submit-btn w-full py-4 text-gray-900 font-semibold rounded-xl flex items-center justify-center gap-2 text-lg relative overflow-hidden group">
+                                <span>Send Message</span>
+                                <i
+                                    class="ri-send-plane-fill group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                            </button>
+
+                            <!-- Alternative Contact Options -->
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-700"></div>
+                                </div>
+                                <div class="relative flex justify-center text-xs">
+                                    <span class="px-4 bg-[#2a373d] text-gray-400">or contact via</span>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Trust Badge -->
+                        <div class="mt-6 flex items-center justify-center gap-2 text-xs text-gray-500">
+                            <i class="ri-shield-check-line text-amber-400"></i>
+                            <span>Your information is secure and encrypted</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Bottom Bar -->
+            <div
+                class="border-t border-gray-600 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-gray-500">© 2024 NOVVI Properties, All Right Reserved</p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Residential Properties</a>
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Off Plan Properties</a>
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Rental Properties</a>
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Buy Properties</a>
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Dubai Communities</a>
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Terms and Conditions</a>
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-novvi-beige transition-colors">Career</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- (optional) small footnote – style note: original used css/style.css but we inline everything -->
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/script.js"> </script>
+</body>
+
+</html>

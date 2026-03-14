@@ -1,0 +1,184 @@
+/* Custom styles for NOVVI Properties */
+
+/* Base font */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Logo serif font */
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Property card hover effects */
+.property-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.property-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+}
+
+/* Property card image container */
+.property-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.property-image-wrapper img {
+  transition: transform 0.5s ease;
+}
+
+.property-card:hover .property-image-wrapper img {
+  transform: scale(1.05);
+}
+
+/* Carousel arrows - visible on hover */
+.carousel-arrow {
+  opacity: 0;
+  transform: translateY(-50%) scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+
+.property-card:hover .carousel-arrow {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.carousel-arrow:hover {
+  background: rgba(196, 165, 116, 0.95) !important;
+  color: white !important;
+}
+
+/* Heart and share icons */
+.card-action-icon {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.property-card:hover .card-action-icon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-action-icon:hover {
+  color: #c4a574 !important;
+}
+
+.card-action-icon.heart-active {
+  opacity: 1;
+  color: #e11d48;
+}
+
+/* Icon button hover - scale effect */
+.icon-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.icon-btn svg {
+  transition: transform 0.2s ease;
+}
+
+/* Filter dropdown hover */
+.filter-dropdown:hover {
+  border-color: #c4a574;
+}
+
+/* Bedroom tag active state */
+.bedroom-tag.active {
+  background: #c4a574;
+  border-color: #c4a574;
+  color: white;
+}
+
+/* View toggle buttons */
+.view-btn.active {
+  background: #c4a574;
+  color: white;
+}
+
+.view-btn:not(.active):hover {
+  background: #f3f4f6;
+}
+
+/* Pagination hover */
+.pagination-btn:not(.active):hover {
+  background: #f3f4f6;
+  color: #1a1a1a;
+}
+
+/* Social icon hover - lift effect */
+.social-icon:hover {
+  transform: translateY(-3px);
+}
+
+.social-icon {
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* Floating icon pulse on hover */
+.floating-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.floating-icon {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Language dropdown */
+.language-menu {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile menu */
+@media (max-width: 1024px) {
+  .property-card:hover .carousel-arrow {
+    opacity: 1;
+  }
+  
+  .card-action-icon {
+    opacity: 1;
+  }
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* List view - horizontal cards */
+#propertyGrid.list-view .property-card {
+  flex-direction: row;
+}
+
+#propertyGrid.list-view .property-image-wrapper {
+  aspect-ratio: auto;
+  width: 300px;
+  min-width: 280px;
+  flex-shrink: 0;
+}
+
+#propertyGrid.list-view .property-image-wrapper img {
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  #propertyGrid.list-view .property-card {
+    flex-direction: column;
+  }
+  
+  #propertyGrid.list-view .property-image-wrapper {
+    width: 100%;
+    min-width: 100%;
+    aspect-ratio: 4/3;
+  }
+}
